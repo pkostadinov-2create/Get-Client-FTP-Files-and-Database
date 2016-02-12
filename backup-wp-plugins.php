@@ -11,7 +11,15 @@ $db_name = escapeshellarg(DB_NAME);
 $filename = escapeshellarg('dump.sql');
 $filename_zip = escapeshellarg('dump.sql.zip');
 
-$dump_statement = "mysqldump -h $host -u $user -p{$pass} $db_name \$(mysql -h $host -u $user -p{$pass} -D $db_name -Bse \"show tables like '{$table_prefix}%'\") > $filename 2>&1";
+$port = '';
+$host_port = explode(':', DB_HOST);
+if ( count($host_port) == 2 ) {
+	$host = escapeshellarg($host_port[0]);
+	$port = escapeshellarg($host_port[1]);
+	$port = "--port={$port} ";
+}
+
+$dump_statement = "mysqldump -h $host {$port} -u $user -p{$pass} $db_name \$(mysql -h $host -u $user -p{$pass} -D $db_name -Bse \"show tables like '{$table_prefix}%'\") > $filename 2>&1";
 $zip_statement = "zip -u $filename_zip $filename";
 $rm_statement = "rm $filename";
 
