@@ -9,7 +9,7 @@ $user = escapeshellarg(DB_USER);
 $pass = escapeshellarg(DB_PASSWORD);
 $db_name = escapeshellarg(DB_NAME);
 $filename = escapeshellarg('dump.sql');
-$filename_zip = escapeshellarg('dump.sql.zip');
+$filename_zip = escapeshellarg(sprintf('dump.sql.%s.zip', date('Ymd')));
 
 $port = '';
 $host_port = explode(':', DB_HOST);
